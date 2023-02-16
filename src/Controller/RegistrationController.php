@@ -31,16 +31,15 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-
-            if ($form->get('Livreur')->getData()) {
-                $user->setRoles(['ROLE_Livreur']);
-            }
-
             if ($form->get('Restaurateur')->getData()) {
                 $user->setRoles(['ROLE_Restaurateur']);
             }
-
-
+            if ($form->get('Livreur')->getData()) {
+                $user->setRoles(['ROLE_Livreur']);
+                $entityManager->persist($user);
+                $entityManager->flush();
+                return $this->redirectToRoute('app_choixVehicule', ['id' => $user->getId()]);
+            }
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email

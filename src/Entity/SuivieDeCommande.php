@@ -36,7 +36,7 @@ class SuivieDeCommande
 
     public function __toString()
     {
-        return $this->id .'-'. $this->getLibelle();    
+        return $this->id . '-' . $this->getLibelle();
     }
 
     public function getId(): ?int

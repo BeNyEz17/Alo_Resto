@@ -8,30 +8,27 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Date</th>
-                <th>Secteur</th>
+                <th>adresse</th>
+                <th>Restaurant</th>
+                {# <th>Plat Commander </th> #}
+                <th>Quantite </th>
+                <th>Client </th>
             </tr>
         </thead>
         <tbody>
-        {% for commande in commandes %}
+        {% for commande in commandes %}   
             <tr>
-                <td>{{ commande.id }}</td>
                 <td>{{ commande.date | date('d/m/y h:m:s')}}</td>
                 <td>{{ commande.secteur }}</td> 
-            </tr>
-        {% endfor %}
+                <td>{{ commande.fkrestaurant.nom }}</td>
+                {# <td>{{ commande.plat.nom}}</td> #}
+                <td>{{ commande.Quantite }}</td>
+                <td>{{ commande.fkuser}} </td>
+           </tr>
 
-        <th>Restaurant</th>
+           {% endfor %}
         
-        {% for restaurant in restaurants %}
-            <tr>
-                <td>{{ restaurant.nom }}</td>
-            </tr>
-        {% endfor %}
         </tbody>
     </table>
-
-    {#<a href="{{ path('app_type_consultation_new') }}">Create new</a>#}
-    {# <a href="{{ path('type_consultationTyper')}}"> Prendre Rendez-vous</a> #}
 {% endblock %}

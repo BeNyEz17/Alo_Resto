@@ -32,13 +32,15 @@ class ClientController extends AbstractController
     /**
      * @Route("/Mescommande", name="app_commande")
      */
-    public function commande(LivraisonRepository $livraisonRepository, RestaurantRepository $restaurantRepository): Response
+    public function commande(LivraisonRepository $livraisonRepository, RestaurantRepository $restaurantRepository, PlatRepository $platRepository): Response
     {
         $commande = $livraisonRepository->findAll();
         $restaurant = $restaurantRepository->findAll();
+        $plat = $platRepository->findAll();
         return $this->render('client/commande.html.twig', [
             'commandes' => $commande,
             'restaurants' => $restaurant,
+            'plats' => $plat,
         ]);
     }
 
