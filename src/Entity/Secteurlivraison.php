@@ -29,9 +29,20 @@ class Secteurlivraison
      */
     private $restaurants;
 
+    /**
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="fk_secteur_livraison")
+     */
+    private $users;
+
     public function __construct()
     {
         $this->restaurants = new ArrayCollection();
+        $this->users = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->id . '-' . $this->getLibelle();
     }
 
     public function getId(): ?int
@@ -75,6 +86,36 @@ class Secteurlivraison
             // set the owning side to null (unless already changed)
             if ($restaurant->getFkSecteurLivraison() === $this) {
                 $restaurant->setFkSecteurLivraison(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setFkSecteurLivraison($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getFkSecteurLivraison() === $this) {
+                $user->setFkSecteurLivraison(null);
             }
         }
 

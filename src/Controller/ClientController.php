@@ -47,7 +47,7 @@ class ClientController extends AbstractController
     /**
      * @Route("/PlatsByType/{id}", name="app_platsByType")
      */
-    public function repasByType(TypeplatRepository $typeplatRepository, $id, PlatRepository $platRepository): Response
+    public function repasByType(TypeplatRepository $typeplatRepository, $id): Response
     {
         $platByType = $typeplatRepository->find($id);
         return $this->render('client/repasByType.html.twig', [
@@ -58,11 +58,23 @@ class ClientController extends AbstractController
     /**
      * @Route("/RestaurantBySecteur/{id}", name="app_RestaurantBySecteur")
      */
-    public function restaurantBySecteur(SecteurlivraisonRepository $secteurlivraisonRepository, $id, PlatRepository $platRepository): Response
+    public function restaurantBySecteur(SecteurlivraisonRepository $secteurlivraisonRepository, $id): Response
     {
         $restaurantBySecteur = $secteurlivraisonRepository->find($id);
         return $this->render('client/restaurantBySecteur.html.twig', [
             'restaurantBySecteur' => $restaurantBySecteur,
+        ]);
+    }
+
+    /**
+     * @Route("/dropdown", name="app_dropdown")
+     */
+    public function dropdown(TypeplatRepository $typeplatRepository): Response
+    {
+        
+        $platByType = $typeplatRepository->findAll();
+        return $this->render('client/dropdownmenu.html.twig', [
+            'platByTypes' => $platByType,
         ]);
     }
 }

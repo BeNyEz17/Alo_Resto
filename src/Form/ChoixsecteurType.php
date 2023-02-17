@@ -2,28 +2,26 @@
 
 namespace App\Form;
 
-use App\Entity\Livraison;
-use App\Entity\SuivieDeCommande;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class ModifierlessuivisdecommandeType extends AbstractType
+class ChoixsecteurType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('fk_suivi_commande')
-            ->add ('modifier', SubmitType::class)
+            ->add('fk_secteur_livraison')
+            ->add('modifier', SubmitType::class)
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Livraison::class,
+            'data_class' => User::class,
         ]);
     }
 }

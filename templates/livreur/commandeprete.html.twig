@@ -17,8 +17,7 @@
             <tr>
                 <th>nom resto</th>
                 <th>nom plat</th>
-                <th>etat de la commande</th>   
-                <th>modifier le suivie</th>
+                <th>etat de la commande</th>
             </tr>
         </thead>
         <tbody>
@@ -27,8 +26,8 @@
                 <td>{{suivieDeCommandes.fkrestaurant.nom}} </td>
                 {# <td>{{suivieDeCommandes.fkrestaurant.fkplat.nom}}</td> #}
                 <td>{{suivieDeCommandes.fksuivicommande.libelle}}</td>
-                <td><a href="{{ path('app_modifierlesuivie', {'id': suivieDeCommandes.id}) }}">Modifier le suivie</a></td>
-
+                 <td><a href="{{ path('app_modifierlesuivie', {'id': suivieDeCommandes.id}) }}">Modifier le suivie</a></td>
+            
             </tr>
         {% endfor %}  
          
