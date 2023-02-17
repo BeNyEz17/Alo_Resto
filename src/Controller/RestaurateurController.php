@@ -56,6 +56,8 @@ class RestaurateurController extends AbstractController
 
     /**
      * @Route("/preparationCommandes/{id}", name="app_preparationCommandes")
+     * @IsGranted("ROLE_Restaurateur")
+     * @IsGranted("ROLE_livreur")
      */
     public function preparation(SuivieDeCommandeRepository $suivieDeCommandeRepository, $id): Response
     {
@@ -67,6 +69,8 @@ class RestaurateurController extends AbstractController
 
     /**
      * @Route("/modifierlesuivie/{id}", name="app_modifierlesuivie")
+     * @IsGranted("ROLE_Restaurateur")
+     * @IsGranted("ROLE_livreur")
      */
     public function modifier($id, Livraison $livraison, LivraisonRepository $livraisonRepository, ManagerRegistry $doctrine, Request $request, SuivieDeCommandeRepository $suivieDeCommandeRepository): Response
     {
@@ -110,6 +114,16 @@ class RestaurateurController extends AbstractController
         }
         return $this->renderForm('restaurateur/nouveaurestaurant.html.twig', [
             'form' => $form,
+
+     /**
+     * @Route("/dropdownpreparation", name="app_dropdownpreparation")
+     */
+    public function dropdownpreparation(SuivieDeCommandeRepository $suivieDeCommandeRepository): Response
+    {
+        $suivieDeCommandes = $suivieDeCommandeRepository->findAll();
+        return $this->render('restaurateur/dropdownpreparation.html.twig', [
+            'suivieDeCommandes' => $suivieDeCommandes,
+
         ]);
     }
 }
