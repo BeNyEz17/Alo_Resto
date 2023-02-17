@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Plats disponible !{% endblock %}
+{% block body %}
+
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+<div class="example-wrapper">
+</div>
+
+ <h1>Les plats disponibles</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>plat</th>
+                <th>nom plat</th>
+                <th>prix du plat</th>   
+                <th>disponibilité du plat</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for plat in plats %}
+         <tr>
+                <td>{{ plat.nom }}</td>
+                <td>{{ plat.fktypeplat.libelle}}</td>        
+                <td>{{ plat.tarif }}</td> 
+                <td>{{ plat.stock }}</td>
+                
+            </tr>
+        {% endfor %}  
+         
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello repas!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+ <h1>Voici les repas de type {{platByType.libelle}}</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Tarif</th>
+                <th>Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for plat in platByType.plats %}
+            <tr>
+                <td>{{ plat.id }}</td>
+                <td>{{ plat.nom }}</td>
+                <td>{{ plat.stock }}</td>
+                <td>{{ plat.tarif }}</td>
+            </tr>
+        {% endfor %}
+     </tbody>
+    </table>
+</div>
+{% endblock %}

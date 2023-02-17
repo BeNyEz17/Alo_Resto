@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Suivie de commande !{% endblock %}
+{% block body %}
+
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+<div class="example-wrapper">
+</div>
+
+ <h1>Voici les commandes qui sont {{suivieDeCommandes.libelle}}</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>nom resto</th>
+                <th>nom plat</th>
+                <th>etat de la commande</th>
+            </tr>
+        </thead>
+        <tbody>
+             {% for suivieDeCommandes in suivieDeCommandes.livraisons %}
+         <tr>
+                <td>{{suivieDeCommandes.fkrestaurant.nom}} </td>
+                {# <td>{{suivieDeCommandes.fkrestaurant.fkplat.nom}}</td> #}
+                <td>{{suivieDeCommandes.fksuivicommande.libelle}}</td>
+                 <td><a href="{{ path('app_modifierlesuivie', {'id': suivieDeCommandes.id}) }}">Modifier le suivie</a></td>
+            
+            </tr>
+        {% endfor %}  
+         
+        </tbody>
+    </table>
+{% endblock %}

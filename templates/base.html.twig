@@ -5,6 +5,9 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+       
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -14,14 +17,19 @@
         {% endblock %}
     </head>
     <body>
-         <nav class="navbar navbar-expand-lg bg-light">
+    
+         <nav class="navbar navbar-dark bg-dark">
 
   <div class="container-fluid">
-    <a class="navbar-brand" href="">AloResto</a>
+ 
+    <a class="navbar-brand" href="{{path('app_accueil')}}">
+    AloResto</a>
+      <img src="/image\KFC.png", width="50" height="50" class="d-inline-block align-top" alt="AloResto">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
+
       <ul class="navbar-nav">
         {% if app.user is null %}
         <li class="nav-item">
@@ -31,8 +39,32 @@
           <a class="nav-link" href="{{path('app_register')}}">Register</a>
         </li>
         {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{path('app_plat')}}">Faire une Commande</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{path('app_commande')}}">Mes Commandes</a>
+        </li>
+         </li>
+       
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="app_platsByType" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+          Type de repas </a>
+          <ul class="dropdown-menu" >
+              {{render(path('app_dropdown')) }}
+          </ul>
+          </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="app_platsByType" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+          Preparation </a>
+          <ul class="dropdown-menu" >
+              {{render(path('app_dropdownpreparation')) }}
+          </ul>
+        </li>
           <li class="nav-item">
-          <a class="nav-link" href="{{path('app_plat')}}">Commander</a>
+          <a class="nav-link" href="{{path('app_restaurateur')}}">Restaurateur</a>
+        </li>
         </li>
          <li class="nav-item">
           <a class="nav-link" href="{{path('app_logout')}}">Déconnection</a>
@@ -46,3 +78,4 @@
 {% block body %}{% endblock %}
     </body>
 </html>
+

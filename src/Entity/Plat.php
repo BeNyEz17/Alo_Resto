@@ -41,9 +41,10 @@ class Plat
     private $fk_type_plat;
 
     /**
-     * @ORM\OneToMany(targetEntity=Restaurant::class, mappedBy="fk_plat")
+     * @ORM\ManyToMany(targetEntity=Restaurant::class, mappedBy="Plats")
      */
     private $restaurants;
+
 
     public function __construct()
     {
@@ -115,7 +116,7 @@ class Plat
     {
         if (!$this->restaurants->contains($restaurant)) {
             $this->restaurants[] = $restaurant;
-            $restaurant->setFkPlat($this);
+            $restaurant->addPlat($this);
         }
 
         return $this;
@@ -124,10 +125,7 @@ class Plat
     public function removeRestaurant(Restaurant $restaurant): self
     {
         if ($this->restaurants->removeElement($restaurant)) {
-            // set the owning side to null (unless already changed)
-            if ($restaurant->getFkPlat() === $this) {
-                $restaurant->setFkPlat(null);
-            }
+            $restaurant->removePlat($this);
         }
 
         return $this;
