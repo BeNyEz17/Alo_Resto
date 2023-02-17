@@ -33,7 +33,11 @@ class RegistrationController extends AbstractController
             );
             if ($form->get('Restaurateur')->getData()) {
                 $user->setRoles(['ROLE_Restaurateur']);
+                $entityManager->persist($user);
+                $entityManager->flush();
+                return $this->redirectToRoute('app_addrestaurant', ['id' => $user->getId()]);
             }
+
             if ($form->get('Livreur')->getData()) {
                 $user->setRoles(['ROLE_Livreur']);
                 $entityManager->persist($user);

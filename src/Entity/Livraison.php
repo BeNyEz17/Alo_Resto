@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\LivraisonRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -43,10 +45,16 @@ class Livraison
      */
     private $fk_user;
 
+
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\OneToMany(targetEntity=PlatsCommander::class, mappedBy="fk_livraisons")
      */
-    private $quantite;
+    private $platsCommanders;
+
+    public function __construct()
+    {
+        $this->platsCommanders = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -115,14 +123,34 @@ class Livraison
         return $this;
     }
 
-    public function getQuantite(): ?int
+
+
+    /**
+     * @return Collection<int, PlatsCommander>
+     */
+    public function getPlatsCommanders(): Collection
     {
-        return $this->quantite;
+        return $this->platsCommanders;
     }
 
-    public function setQuantite(int $quantite): self
+    public function addPlatsCommander(PlatsCommander $platsCommander): self
     {
-        $this->quantite = $quantite;
+        if (!$this->platsCommanders->contains($platsCommander)) {
+            $this->platsCommanders[] = $platsCommander;
+            $platsCommander->setFkLivraisons($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlatsCommander(PlatsCommander $platsCommander): self
+    {
+        if ($this->platsCommanders->removeElement($platsCommander)) {
+            // set the owning side to null (unless already changed)
+            if ($platsCommander->getFkLivraisons() === $this) {
+                $platsCommander->setFkLivraisons(null);
+            }
+        }
 
         return $this;
     }

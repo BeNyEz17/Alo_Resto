@@ -18,22 +18,26 @@
                 <th>nom du restaurant</th>
                 <th>adresse du restaurant</th>
                 <th>type du restaurant</th>
-                <th>nom du restauranteurs</th>
+                <th>Prenom et nom du restauranteurs</th>
                 <th>voir disponile</th>
             </tr>
         </thead>
    <tbody>
         {% for restaurateur in restaurateurs %}
-        {% for typeplat in typeplats %}
-        {% for user in users %}
             <tr>
                 <td>{{restaurateur.nom}}</td>
                 <td>{{restaurateur.adresse}}</td>
-                <td>{{typeplat.libelle}}</td>
-                <td>{{user.nom}}</td>
+                <td>
+                    {% for plat in restaurateur.Plats %} 
+                        {{plat.fktypeplat.libelle}}
+                     {% endfor %}
+                </td>
+                 <td>
+                    {{restaurateur.fkuser.Prenom}}
+                    {{restaurateur.fkuser.nom}}
+                </td>
+                
                 <td><a href="{{ path('app_disponible', {'id': restaurateur.id}) }}">voir disponile</a></td>
-        {% endfor %}
-        {% endfor %}
         {% endfor %}
         </tr>
         

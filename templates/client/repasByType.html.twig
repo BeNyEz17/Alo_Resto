@@ -17,6 +17,7 @@
                 <th>Nom</th>
                 <th>Tarif</th>
                 <th>Stock</th>
+                <th>Commander<th>
             </tr>
         </thead>
         <tbody>
@@ -26,6 +27,7 @@
                 <td>{{ plat.nom }}</td>
                 <td>{{ plat.stock }}</td>
                 <td>{{ plat.tarif }}</td>
+                <td><a href="{{ path('app_passerCommande',{'id': platByType.id})}}">Passer Commande</a></td>
             </tr>
         {% endfor %}
      </tbody>

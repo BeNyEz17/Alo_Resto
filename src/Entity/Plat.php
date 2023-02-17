@@ -45,10 +45,20 @@ class Plat
      */
     private $restaurants;
 
+    /**
+     * @ORM\OneToMany(targetEntity=PlatsCommander::class, mappedBy="fk_plats")
+     */
+    private $platsCommanders;
+
 
     public function __construct()
     {
         $this->restaurants = new ArrayCollection();
+        $this->platsCommanders = new ArrayCollection();
+    }
+    public function __toString()
+    {
+        return $this->nom;
     }
 
     public function getId(): ?int
@@ -126,6 +136,36 @@ class Plat
     {
         if ($this->restaurants->removeElement($restaurant)) {
             $restaurant->removePlat($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PlatsCommander>
+     */
+    public function getPlatsCommanders(): Collection
+    {
+        return $this->platsCommanders;
+    }
+
+    public function addPlatsCommander(PlatsCommander $platsCommander): self
+    {
+        if (!$this->platsCommanders->contains($platsCommander)) {
+            $this->platsCommanders[] = $platsCommander;
+            $platsCommander->setFkPlats($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlatsCommander(PlatsCommander $platsCommander): self
+    {
+        if ($this->platsCommanders->removeElement($platsCommander)) {
+            // set the owning side to null (unless already changed)
+            if ($platsCommander->getFkPlats() === $this) {
+                $platsCommander->setFkPlats(null);
+            }
         }
 
         return $this;

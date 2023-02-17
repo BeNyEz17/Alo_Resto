@@ -3,7 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Livraison;
+use App\Entity\Plat;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,9 +18,8 @@ class LivraisonType extends AbstractType
         $builder
             ->add('date')
             ->add('secteur')
-            ->add('quantite')
-            ->add('fk_restaurant')
-            ->add('fk_user')
+            ->add('quantite', NumberType::class, ['mapped' => false])
+            ->add('plat', EntityType::class, ['class' => Plat::class, 'mapped' => false])
             ->add('save', SubmitType::class);
     }
 

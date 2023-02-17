@@ -19,6 +19,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Livraison;
 use App\Entity\Restaurant;
 use App\Form\LivraisonType;
+use App\Form\NouveauRestaurantType;
 use Symfony\Component\DomCrawler\Form;
 
 class RestaurateurController extends AbstractController
@@ -28,16 +29,15 @@ class RestaurateurController extends AbstractController
      * @Route("/restaurateur", name="app_restaurateur")
      * @IsGranted("ROLE_Restaurateur")
      */
-    public function index(RestaurantRepository $RestaurantRepository, TypeplatRepository $typeplatRepository, UserRepository $userRepository): Response
+    public function index(RestaurantRepository $RestaurantRepository, PlatRepository $PlatRepository, TypeplatRepository $typeplatRepository, UserRepository $userRepository): Response
     {
         $restaurateurs = $RestaurantRepository->findAll();
-        $typeplats = $typeplatRepository->findAll();
-        $users = $userRepository->findAll();
-
+        $user = $userRepository->findAll();
+        $plat = $PlatRepository->findAll();
         return $this->render('restaurateur/index.html.twig', [
             'restaurateurs' => $restaurateurs,
-            'typeplats' => $typeplats,
-            'users' => $users,
+            'users' => $user,
+            'plats' => $plat,
         ]);
     }
 
@@ -45,15 +45,12 @@ class RestaurateurController extends AbstractController
      * @Route("/disponible/{id}", name="app_disponible")
      * @IsGranted("ROLE_Restaurateur")
      */
-    public function disponible(TypeplatRepository $typeplatRepository, PlatRepository $platRepository): Response
+    public function disponible($id, TypeplatRepository $typeplatRepository, RestaurantRepository $restaurantRepository): Response
     {
-        $typeplats = $typeplatRepository->findAll();
-        $plats = $platRepository->findAll();
-
+        $restaurant = $restaurantRepository->find($id);
 
         return $this->render('restaurateur/disponible.html.twig', [
-            'typeplats' => $typeplats,
-            'plats' => $plats,
+            'restaurant' => $restaurant,
         ]);
     }
 
@@ -95,6 +92,29 @@ class RestaurateurController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/ajouterRestaurant/{id}", name="app_addrestaurant")
+     */
+    public function ajouter($id, RestaurantRepository $restaurantRepository, UserRepository $userRepository, ManagerRegistry $doctrine, Request $request): Response
+    {
+        $restaurant = new Restaurant();
+        $user = $userRepository->find($id);
+        $form = $this->createForm(NouveauRestaurantType::class, $restaurant);
+
+        $manager = $doctrine->getManager();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $restaurant = $form->getData();
+            $restaurant->setFkUser($user);
+            $manager->persist($restaurant);
+            $manager->flush();
+            return $this->redirectToRoute('app_login');
+        }
+        return $this->renderForm('restaurateur/nouveaurestaurant.html.twig', [
+            'form' => $form,
+
      /**
      * @Route("/dropdownpreparation", name="app_dropdownpreparation")
      */
@@ -103,6 +123,7 @@ class RestaurateurController extends AbstractController
         $suivieDeCommandes = $suivieDeCommandeRepository->findAll();
         return $this->render('restaurateur/dropdownpreparation.html.twig', [
             'suivieDeCommandes' => $suivieDeCommandes,
+
         ]);
     }
 }

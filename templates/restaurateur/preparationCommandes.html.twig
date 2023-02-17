@@ -25,7 +25,13 @@
              {% for suivieDeCommandes in suivieDeCommandes.livraisons %}
          <tr>
                 <td>{{suivieDeCommandes.fkrestaurant.nom}} </td>
-                {# <td>{{suivieDeCommandes.fkrestaurant.fkplat.nom}}</td> #}
+                <td>
+                 {% for plat in suivieDeCommandes.platsCommanders %}
+                    {{plat.fkplats.nom }}
+                        <br>
+                {% endfor %}
+                    </td>
+                    
                 <td>{{suivieDeCommandes.fksuivicommande.libelle}}</td>
                 <td><a href="{{ path('app_modifierlesuivie', {'id': suivieDeCommandes.id}) }}">Modifier le suivie</a></td>
 
